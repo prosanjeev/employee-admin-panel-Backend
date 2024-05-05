@@ -5,7 +5,7 @@ import { Employee } from "../models/employeeModel.js";
 export const createEmployee = async (req, res) => {
     try {
         const { fullName, email, phone, designation, gender, profilePhoto, course } = req.body;
-        if (!fullName || !email || !phone || !designation || !gender || !profilePhoto|| !course) {
+        if (!fullName || !email || !phone || !designation || !gender || !profilePhoto || !course) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -23,18 +23,20 @@ export const createEmployee = async (req, res) => {
         if (!/^\d{10}$/.test(phone)) {
             return res.status(400).json({ message: "Please enter a valid phone number" });
         }
-
-       
-
         if (!["HR", "Manager", "Sales"].includes(designation)) {
             return res.status(400).send("Designation must be 'HR', 'Manager', or 'Sales'");
         }
         if (!["male", "female"].includes(gender)) {
             return res.status(400).send("Gender must be 'male' or 'female'");
         }
-        if (!["MCA", "BCA", "BSC"].includes(course)) {
-            return res.status(400).send("Course must be 'MCA' or 'BCA', or 'BSC' ");
+
+        if (!course || course.length === 0) {
+            return res.status(400).send("At least one course must be selected");
         }
+        
+        // if (!["MCA", "BCA", "BSC"].includes(course)) {
+        //     return res.status(400).send("Course must be 'MCA' or 'BCA', or 'BSC' ");
+        // }
 
         await Employee.create({
             fullName,

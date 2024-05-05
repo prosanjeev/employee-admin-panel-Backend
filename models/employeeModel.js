@@ -36,11 +36,13 @@ const employeeModel = new mongoose.Schema({
         enum: ["male", "female"],
         required: true,
       },
-      course: {
-        type: String,
-        enum: ["MCA", "BCA", "BSC"],
-        required: true,
+      
+        course: {
+          type: [String],
+          required: true,
+          // Changed to array of strings
       },
+      
       profilePhoto: {
         type: String,
       },
